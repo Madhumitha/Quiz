@@ -1,0 +1,21 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.btn-grid {
+    display: grid;
+    gap:10px;
+}
+
+.btn-grid button {
+    background-color: yellowgreen;
+}
+
+.hide {
+    display: none;
+}
+
+#last_page-container button {
+    margin-top: 30px;
+}

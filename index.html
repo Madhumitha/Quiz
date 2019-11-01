@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src=script/script.js></script>
-    <script src=script/questions.js></script>
+    <script defer src="script/script.js"></script>
+   
     <title>Quiz Assesment</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 <div class="text-center col-lg-8 col-sm-12 col-xs-12 mx-auto">
-                        <div class=" px-5 py-5 bg-white container border">
+                        <div id="front_page-container" class="px-5 py-5 bg-white border">
                             <h2 class="text-center"> Coding Quiz Challenge</h2>
                             <hr>
                             <h6 class="text-justify"> 
@@ -31,7 +31,29 @@
                                     and asked to enter their initials 
                             </h6>
                             <hr>
-                            <button onclick="" type="button" class="start-quiz btn btn-info">Start Quiz</button>
+                            <button id="start_quiz-btn" class="start_quiz-btn btn btn-info">Start Quiz</button>
+                        </div>
+                        <div id="question-container" class="px-5 py-5 bg-white border hide">
+                            <div id="question">Question</div><br>
+                            <div id="answer-buttons" class="btn-grid">
+                                <button id="button1" class="btn">1.</button>
+                                <button id="button2" class="btn">2.</button>
+                                <button id="button3" class="btn">3.</button>
+                                <button id="button4" class="btn">4.</button>
+                            </div>
+                        </div>
+                        <div id="middle_page-container" class="hide">
+                            <h2> All Done ! </h2>
+                            <p> </p>
+                            <h6> Your final score is </h6>
+                             Enter Initials : <input type="text" name = "Initials">
+                             <button type="button" class="btn btn-info">Submit</button>
+                        </div>
+                        <div id="last_page-container" class="hide">
+                            <h3> High Scores </h3>
+                                <input type="text" name="High Scores"></br>
+                                    <button type="button" class="btn btn-info">Go Back</button>
+                                    <button type="button" class="btn btn-info">Clear HighScores</button>
                         </div>
 
                 </div>
