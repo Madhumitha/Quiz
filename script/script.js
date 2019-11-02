@@ -27,28 +27,43 @@ const navBarElement = document.getElementById("navbarId");
 let questions = [
     {
         title: "Commonly used data types DO NOT include:",
-        choices: ["strings", "booleans", "alerts", "numbers"],
-        answer: "alerts"
+        button1Element : "strings", 
+        button2Element : "booleans",
+        button3Element : "alerts" ,
+        button4Element : "numbers", 
+        answer: "button3"
     },
     {
         title: "The condition in an if / else statement is enclosed within ____.",
-        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-        answer: "parentheses"
+        button1Element : "quotes", 
+        button2Element : "curly brackets", 
+        button3Element : "parentheses", 
+        button4Element : "square brackets",
+        answer: "button3"
     },
     {
         title: "Which of the following type of variable takes precedence over other if names are same?",
-        choices: ["global variable", "local variable", "Both of the above", "None of the above"],
-        answer: "local variable"    
+        button1Element : "global variable",
+        button2Element : "local variable",
+        button3Element : "Both of the above",
+        button4Element : "None of the above",
+        answer: "button2"    
     },
     {
         title: "Which built-in method sorts the elements of an array?",
-        choices: ["changeOrder(order)", "order()", "sort()", "None of the above"],
-        answer: "sort()"
+        button1Element : "changeOrder(order)",
+        button2Element : "order()",
+        button3Element : "sort()",
+        button4Element : "None of the above",
+        answer : "button3"
     },
     {
         title: "Which of the following function of Number object returns a string value version of the current number?",
-        choices: ["toString()", "toFixed()", "toLocaleString()", "toPrecision()"],
-        answer: "toString()"   
+        button1Element : "toString()",
+        button2Element : "toFixed()",
+        button3Element : "toLocaleString()",
+        button4Element : "toPrecision()",
+        answer : "button1"
     }
 ]
 
@@ -74,10 +89,10 @@ function startGame() {
 function showQuestion() {
         let runningChoicesIndex = 0;
         questionElement.textContent = questions[runningQuestionIndex].title;
-        button1Element.textContent = questions[runningQuestionIndex].choices[runningChoicesIndex];
-        button2Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
-        button3Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
-        button4Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
+        button1Element.textContent = questions[runningQuestionIndex].button1Element;
+        button2Element.textContent = questions[runningQuestionIndex].button2Element;
+        button3Element.textContent = questions[runningQuestionIndex].button3Element;
+        button4Element.textContent = questions[runningQuestionIndex].button4Element;
 }
 
 function counterRender() {
@@ -90,9 +105,8 @@ function counterRender() {
     }
 }
 
-function checkAnswer() {
-    console.log("Madhu");
-    if("alert" == questions[runningQuestionIndex].answer) {
+function checkAnswer(buttonname) {
+    if(buttonname == questions[runningQuestionIndex].answer) {
         answerIsCorrect();
     }
     else {
@@ -111,19 +125,24 @@ function checkAnswer() {
 function answerIsCorrect() {
     checkElement.classList.remove('hide');
     checkDisplayElement.innerHTML = "Correct";
+    setTimeout(function() {
+        checkElement.classList.add('hide');
+    }, 1000);
 }
 
 function answerIsWrong() {
     totalQuestionTime -= 15;
     checkElement.classList.remove('hide');
     checkDisplayElement.innerHTML = "Wrong";
+    setTimeout(function() {
+        checkElement.classList.add('hide');
+    }, 1000);
 }
 
 function scoreRender() {
     questionContainer.classList.add('hide');
     middlePageContainerElement.classList.remove('hide');
     finalScoreElement.innerHTML = "Your Final Score is " + totalQuestionTime;
-
     submitButtonElement.addEventListener('click', finalPage);
 };
 
@@ -137,7 +156,7 @@ function finalPage() {
 }
 
 function removeHighScore() {
-
+    localStorage.setItem("")
 }
 
 function frontPage() {
@@ -145,6 +164,8 @@ function frontPage() {
     lastPageContainerElement.classList.add('hide');
     frontContainer.classList.remove('hide');
     timeElement.innerHTML = "Time : 0";
+    runningQuestionIndex = 0;
+    finalScore = 0;
     startQuizButton.addEventListener('click', startGame);
 }
 
