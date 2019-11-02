@@ -1,3 +1,29 @@
+// Author: Madhumitha Prabakaran
+
+const startQuizButton = document.getElementById("start_quiz-btn");
+const frontContainer = document.getElementById("front_page-container");
+const questionContainer = document.getElementById("question-container");
+const questionElement = document.getElementById("question");
+const answerButtonsElement = document.getElementById("answer-buttons");
+const button1Element = document.getElementById("button1");
+const button2Element = document.getElementById("button2");
+const button3Element = document.getElementById("button3");
+const button4Element = document.getElementById("button4");
+const checkElement = document.getElementById("check");
+const checkDisplayElement = document.getElementById("check_display");
+const viewHighScoreElement = document.getElementById("viewHighScore");
+const timeElement = document.getElementById("time");
+const middlePageContainerElement = document.getElementById("middlePageContainer");
+const lastPageContainerElement = document.getElementById("lastPageContainer");
+const finalScoreElement = document.getElementById("finalScore");
+const initialsElement = document.getElementById("initials");
+const submitButtonElement = document.getElementById("submitButton");
+const goBackElement = document.getElementById("goBack");
+const clearHighScoresElement = document.getElementById("clearHighScores");
+const navBarElement = document.getElementById("navbarId");
+
+//Create Questions
+
 let questions = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -26,55 +52,102 @@ let questions = [
     }
 ]
 
-const startQuizButton = document.getElementById("start_quiz-btn");
-const frontContainer = document.getElementById("front_page-container");
-const questionContainer = document.getElementById("question-container");
-const questionElement = document.getElementById("question");
-const answerButtonsElement = document.getElementById("answer-buttons");
-const button1Element = document.getElementById("button1");
-const button2Element = document.getElementById("button2");
-const button3Element = document.getElementById("button3");
-const button4Element = document.getElementById("button4");
+// Set Variables 
 
+const lastQuestionIndex = questions.length - 1;
+let runningQuestionIndex = 0;
+const questionLength = questions.length;
+let totalQuestionTime = questionLength * 15; //15sec for each questions
+let TIMER, flag;  
+let finalScore = 0;
 
-let shuffledQuestions, currentQuestionIndex;
-
-startQuizButton.addEventListener('click', startGame);
+frontPage();
 
 function startGame() {
-    console.log("Started");
     frontContainer.classList.add('hide');
+    showQuestion();
     questionContainer.classList.remove('hide');
-    shuffledQuestions = questions.sort(() => Math.random() - .5);
-    currentQuestionIndex = 0;
-    setNextQuestion();
+    counterRender();
+    TIMER = setInterval(counterRender,1000);
 }
 
-function setNextQuestion() {
-    resetState();
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+function showQuestion() {
+        let runningChoicesIndex = 0;
+        questionElement.textContent = questions[runningQuestionIndex].title;
+        button1Element.textContent = questions[runningQuestionIndex].choices[runningChoicesIndex];
+        button2Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
+        button3Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
+        button4Element.textContent = questions[runningQuestionIndex].choices[++runningChoicesIndex];
 }
 
-function showQuestion(title) {
-    questionElement.innerText = title.title;
-    title.choices.forEach(key => {
-        const button = document.createElement('button');
-        button.innerText = key.text;
-        button.classList.add('btn');
-        if(key.answer) {
-            button.dataset.answer = key.answer;
-        }
-        button.addEventListener('click', selectAnswer);
-        answerButtonsElement.appendChild(button);
-    })
+function counterRender() {
+    --totalQuestionTime;
+    timeElement.innerHTML = "Time : " + totalQuestionTime;
+    if(totalQuestionTime === 0)
+    {
+        clearInterval(TIMER);
+        scoreRender();
+    }
 }
 
-function resetState() {
-    while(answerButtonsElement.firstChild)
+function checkAnswer() {
+    console.log("Madhu");
+    if("alert" == questions[runningQuestionIndex].answer) {
+        answerIsCorrect();
+    }
+    else {
+        answerIsWrong();
+    }
+    if(runningQuestionIndex < lastQuestionIndex) {
+        runningQuestionIndex++;
+        showQuestion();
+    }
+    else {
+        clearInterval(TIMER);
+        scoreRender();
+    }
 }
 
-function selectAnswer(e) {
+function answerIsCorrect() {
+    checkElement.classList.remove('hide');
+    checkDisplayElement.innerHTML = "Correct";
+}
+
+function answerIsWrong() {
+    totalQuestionTime -= 15;
+    checkElement.classList.remove('hide');
+    checkDisplayElement.innerHTML = "Wrong";
+}
+
+function scoreRender() {
+    questionContainer.classList.add('hide');
+    middlePageContainerElement.classList.remove('hide');
+    finalScoreElement.innerHTML = "Your Final Score is " + totalQuestionTime;
+
+    submitButtonElement.addEventListener('click', finalPage);
+};
+
+function finalPage() {
+    middlePageContainerElement.classList.add('hide');
+    lastPageContainerElement.classList.remove('hide');
+    navBarElement.classList.add('hide');
+    totalQuestionTime = questionLength * 15;
+    clearHighScoresElement.addEventListener('click', removeHighScore);
+    goBackElement.addEventListener('click', frontPage);
+}
+
+function removeHighScore() {
 
 }
+
+function frontPage() {
+    navBarElement.classList.remove('hide');
+    lastPageContainerElement.classList.add('hide');
+    frontContainer.classList.remove('hide');
+    timeElement.innerHTML = "Time : 0";
+    startQuizButton.addEventListener('click', startGame);
+}
+
+
 
 
