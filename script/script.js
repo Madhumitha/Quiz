@@ -21,6 +21,7 @@ const submitButtonElement = document.getElementById("submitButton");
 const goBackElement = document.getElementById("goBack");
 const clearHighScoresElement = document.getElementById("clearHighScores");
 const navBarElement = document.getElementById("navbarId");
+const scoreBoardElement = document.getElementById("scoreBoard");
 
 //Create Questions
 
@@ -142,21 +143,39 @@ function answerIsWrong() {
 function scoreRender() {
     questionContainer.classList.add('hide');
     middlePageContainerElement.classList.remove('hide');
-    finalScoreElement.innerHTML = "Your Final Score is " + totalQuestionTime;
+    finalScoreElement.innerHTML = "Your Final Score is " + totalQuestionTime; 
     submitButtonElement.addEventListener('click', finalPage);
 };
 
 function finalPage() {
+    const playerName = initialsElement.value;
+
+    if (playerName && totalQuestionTime) {
+        localStorage.setItem(playerName, totalQuestionTime);
+        //location.reload();
+    }
+
     middlePageContainerElement.classList.add('hide');
     lastPageContainerElement.classList.remove('hide');
     navBarElement.classList.add('hide');
     totalQuestionTime = questionLength * 15;
+
+    for (let i=0; i < localStorage.length; i++) {
+        const playerName = localStorage.key(i);
+        const value = localStorage.getItem(playerName);
+
+        scoreBoardElement.innerHTML += `${playerName} : ${value}<br/>`;
+        
+    }
+    localStorage.removeItem(playerName);
     clearHighScoresElement.addEventListener('click', removeHighScore);
     goBackElement.addEventListener('click', frontPage);
 }
 
 function removeHighScore() {
-    localStorage.setItem("")
+    localStorage.clear();
+    scoreBoardElement.innerHTML = "";
+    scoreBoardElement.classList.add('hide');  
 }
 
 function frontPage() {
@@ -167,6 +186,7 @@ function frontPage() {
     runningQuestionIndex = 0;
     finalScore = 0;
     startQuizButton.addEventListener('click', startGame);
+    scoreBoardElement.classList.remove('hide');
 }
 
 

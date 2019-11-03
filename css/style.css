@@ -23,3 +23,7 @@
 #lastPageContainer button {
     margin-top: 100px;
 }
+
+#lastPageContainer p {
+    background-color: yellowgreen;
+}
